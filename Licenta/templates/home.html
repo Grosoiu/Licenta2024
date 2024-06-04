@@ -3,16 +3,7 @@
 <head>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <title>Output Files</title>
-    <style>
-        .img-3d {
-            transform: perspective(1000px) rotateY(20deg);
-            transition: transform 0.5s;
-        }
-        .img-3d:hover {
-            transform: perspective(1000px) rotateY(0deg);
-        }
-    </style>
+    <title>Homepage</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -41,21 +32,8 @@
         </div>
     </nav>
     <div class="container mt-5">
-        <h1>Output Files</h1>
-        {% for file in files %}
-            {% if file.endswith('.png') %}
-                <div class="mb-3">
-                    <img src="{{ url_for('uploaded_file', filename=file) }}" class="img-fluid img-3d" alt="Output Image">
-                </div>
-            {% elif file.endswith('.wav') %}
-                <div class="audio-player mb-3">
-                    <audio controls>
-                        <source src="{{ url_for('uploaded_file', filename=file) }}" type="audio/wav">
-                        Your browser does not support the audio element.
-                    </audio>
-                </div>
-            {% endif %}
-        {% endfor %}
+        <h1>Welcome to the Audio Processing App</h1>
+        <p>Use the navbar to navigate to different processing actions or to view the output files.</p>
     </div>
 
     <!-- Bootstrap Bundle with Popper -->
