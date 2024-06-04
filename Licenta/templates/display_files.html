@@ -35,27 +35,75 @@
                     <a class="nav-link" href="{{ url_for('upload_file', action='tnnr') }}">TNNR-ADMM</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('display_files') }}">View Outputs</a>
+                    <a class="nav-link" href="{{ url_for('display_files', action=action) }}">View Outputs</a>
                 </li>
             </ul>
         </div>
     </nav>
     <div class="container mt-5">
-        <h1>Output Files</h1>
-        {% for file in files %}
-            {% if file.endswith('.png') %}
-                <div class="mb-3">
-                    <img src="{{ url_for('uploaded_file', filename=file) }}" class="img-fluid img-3d" alt="Output Image">
-                </div>
-            {% elif file.endswith('.wav') %}
-                <div class="audio-player mb-3">
-                    <audio controls>
-                        <source src="{{ url_for('uploaded_file', filename=file) }}" type="audio/wav">
-                        Your browser does not support the audio element.
-                    </audio>
-                </div>
-            {% endif %}
-        {% endfor %}
+        <h1>Output Files for {{ action.capitalize() }} Action</h1>
+        {% if action == 'reverb' %}
+            <h2>Original and Reverbed Files</h2>
+            <div class="audio-player mb-3">
+                <audio controls>
+                    <source src="{{ url_for('uploaded_file', filename='fisier.mp3') }}" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <div class="audio-player mb-3">
+                <audio controls>
+                    <source src="{{ url_for('uploaded_file', filename='reverb_fisier.wav') }}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        {% elif action == 'shift' %}
+            <h2>Original and Shifted Files</h2>
+            <div class="audio-player mb-3">
+                <audio controls>
+                    <source src="{{ url_for('uploaded_file', filename='fisier.mp3') }}" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <div class="audio-player mb-3">
+                <audio controls>
+                    <source src="{{ url_for('uploaded_file', filename='shift_fisier.wav') }}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        {% elif action == 'stretch' %}
+            <h2>Original and Stretched Files</h2>
+            <div class="audio-player mb-3">
+                <audio controls>
+                    <source src="{{ url_for('uploaded_file', filename='fisier.mp3') }}" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <div class="audio-player mb-3">
+                <audio controls>
+                    <source src="{{ url_for('uploaded_file', filename='stretch_fisier.wav') }}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        {% elif action == 'tnnr' %}
+            <h2>TNNR-ADMM Output Files</h2>
+            <div class="audio-player mb-3">
+                <audio controls>
+                    <source src="{{ url_for('uploaded_file', filename='masca.wav') }}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <div class="audio-player mb-3">
+                <audio controls>
+                    <source src="{{ url_for('uploaded_file', filename='repaired.wav') }}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <div class="mb-3">
+                <img src="{{ url_for('uploaded_file', filename='spectral.png') }}" class="img-fluid img-3d" alt="Output Image">
+            </div>
+        {% else %}
+            <p>No specific action selected.</p>
+        {% endif %}
     </div>
 
     <!-- Bootstrap Bundle with Popper -->

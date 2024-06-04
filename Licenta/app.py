@@ -52,14 +52,15 @@ def upload_file(action):
                 shift_value = request.form.get('shift-value', '0')
                 command.append(shift_value)
             subprocess.run(command, shell=True)
-            return redirect(url_for('display_files'))
+            return redirect(url_for('display_files', action=action))
     return render_template('upload.html', action=action)
 
 
 @app.route('/outputs', methods=['GET'])
 def display_files():
+    action = request.args.get('action', 'reverb')
     files = os.listdir(OUTPUT_FOLDER)
-    return render_template('display_files.html', files=files)
+    return render_template('display_files.html', files=files, action=action)
 
 
 @app.route('/outputs/<filename>')
