@@ -43,8 +43,15 @@ def upload_file(action):
             filename = 'fisier.mp3'  # Overwrite the existing input file
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(filepath)
-            # Run the appropriate executable
-            subprocess.run(EXECUTABLES[action], shell=True)
+            # Handle slider values
+            command = [EXECUTABLES[action]]
+            if action == 'stretch':
+                stretch_value = request.form.get('stretch-value', '1')
+                command.append(stretch_value)
+            elif action == 'shift':
+                shift_value = request.form.get('shift-value', '0')
+                command.append(shift_value)
+            subprocess.run(command, shell=True)
             return redirect(url_for('display_files'))
     return render_template('upload.html', action=action)
 

@@ -3,28 +3,57 @@
 <head>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <title>Upload new File</title>
+    <title>Upload File for {{ action }}</title>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Audio Processing App</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('upload_file', action='reverb') }}">Reverb</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('upload_file', action='shift') }}">Shift</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('upload_file', action='stretch') }}">Stretch</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('upload_file', action='tnnr') }}">TNNR-ADMM</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('display_files') }}">View Outputs</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div class="container mt-5">
-        <h1 class="mb-3">Upload a new File for {{ action|capitalize }}</h1>
-        <form action="" method="post" enctype="multipart/form-data" class="mb-3">
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" id="file" name="file">
-                <label class="custom-file-label" for="file">Choose file</label>
+        <h1>Upload File for {{ action.capitalize() }} Action</h1>
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Choose file</label>
+                <input type="file" class="form-control" id="file" name="file">
             </div>
-            <button type="submit" class="btn btn-primary mt-3">Upload</button>
+            {% if action == 'stretch' %}
+                <div class="form-group">
+                    <label for="stretch-value">Stretch Value (0.5 to 3):</label>
+                    <input type="range" class="form-control-range" id="stretch-value" name="stretch-value" min="0.1" max="2" step="0.1" value="1">
+                </div>
+            {% elif action == 'shift' %}
+                <div class="form-group">
+                    <label for="shift-value">Shift Value (-10 to 10):</label>
+                    <input type="range" class="form-control-range" id="shift-value" name="shift-value" min="-10" max="10" step="1" value="0">
+                </div>
+            {% endif %}
+            <button type="submit" class="btn btn-primary">Upload</button>
         </form>
     </div>
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Bootstrap file input label update
-        $('.custom-file-input').on('change', function() {
-           var fileName = $(this).val().split('\\').pop();
-           $(this).next('.custom-file-label').html(fileName);
-        });
-    </script>
 </body>
 </html>
