@@ -52,7 +52,7 @@
             </div>
             <div class="audio-player mb-3">
                 <audio controls>
-                    <source src="{{ url_for('uploaded_file', filename='reverb_fisier.wav') }}" type="audio/wav">
+                    <source src="{{ url_for('output_file', filename='reverb_fisier.wav') }}" type="audio/wav">
                     Your browser does not support the audio element.
                 </audio>
             </div>
@@ -66,7 +66,7 @@
             </div>
             <div class="audio-player mb-3">
                 <audio controls>
-                    <source src="{{ url_for('uploaded_file', filename='shift_fisier.wav') }}" type="audio/wav">
+                    <source src="{{ url_for('output_file', filename='shift_fisier.wav') }}" type="audio/wav">
                     Your browser does not support the audio element.
                 </audio>
             </div>
@@ -80,7 +80,7 @@
             </div>
             <div class="audio-player mb-3">
                 <audio controls>
-                    <source src="{{ url_for('uploaded_file', filename='stretch_fisier.wav') }}" type="audio/wav">
+                    <source src="{{ url_for('output_file', filename='stretch_fisier.wav') }}" type="audio/wav">
                     Your browser does not support the audio element.
                 </audio>
             </div>
@@ -88,18 +88,18 @@
             <h2>TNNR-ADMM Output Files</h2>
             <div class="audio-player mb-3">
                 <audio controls>
-                    <source src="{{ url_for('uploaded_file', filename='masca.wav') }}" type="audio/wav">
+                    <source src="{{ url_for('output_file', filename='masca.wav') }}" type="audio/wav">
                     Your browser does not support the audio element.
                 </audio>
             </div>
             <div class="audio-player mb-3">
                 <audio controls>
-                    <source src="{{ url_for('uploaded_file', filename='repaired.wav') }}" type="audio/wav">
+                    <source src="{{ url_for('output_file', filename='repaired.wav') }}" type="audio/wav">
                     Your browser does not support the audio element.
                 </audio>
             </div>
             <div class="mb-3">
-                <img src="{{ url_for('uploaded_file', filename='spectral.png') }}" class="img-fluid img-3d" alt="Output Image">
+                <img src="{{ url_for('output_file', filename='spectral.png') }}" class="img-fluid img-3d" alt="Output Image">
             </div>
         {% else %}
             <p>No specific action selected.</p>
