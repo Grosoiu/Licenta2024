@@ -3,11 +3,74 @@
 <head>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts - Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <title>Homepage</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #202124; /* Google's text color */
+            background-color: #ffffff; /* Google's background color */
+        }
+
+        h1, h2 {
+            font-weight: 500;
+        }
+
+        h1 {
+            font-size: 2.5em;
+        }
+
+        h2 {
+            font-size: 2em;
+        }
+
+        p {
+            font-size: 1em;
+        }
+
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(100%);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .fade-in-right.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .image-container {
+            width: 100%;
+            height: auto;  /* Allow the height to be flexible */
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;  /* Ensure images maintain their aspect ratio */
+        }
+
+        .navbar, .navbar-nav .nav-link {
+            background-color: #4285F4; /* Google's primary color */
+            color: #ffffff;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: #1c0c0c; /* Google's green color */
+        }
+
+        .navbar-nav .nav-link:hover {
+            background-color: #357ae8;
+            color: #ffffff;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Audio Processing App</a>
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="{{ url_for('home') }}">Audio Processing App</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -32,11 +95,96 @@
         </div>
     </nav>
     <div class="container mt-5">
-        <h1>Welcome to the Audio Processing App</h1>
-        <p>Use the navbar to navigate to different processing actions or to view the output files.</p>
+        <h1>Aplicatie de procesare audio bazata pe Matlab</h1>
+        <p>Utilizati bara de navigare pentru a folosi instrumentele de procesare sau pentru a vizualiza fisierele procesate.</p>
+        
+        <div>
+            <br>
+            <h2>Reverb</h2>
+            <p>
+                Efectul de "reverb" este un fenomen acustic care se produce atunci cand sunetul se reflecta de pe pereti sau alte suprafete, creand o serie de ecouri care se estompeaza treptat. In productia audio, reverb-ul este adesea folosint pentru:<br><br>
+                <strong>Ambianta si profunzime:</strong> Reverb-ul este folosit pentru a creaa un sentiment de ambianta si pentru a stimula un sentiment de profunzime.<br>
+                <strong>Efecte Spatiale:</strong> Reverb-ul poate fi folosit pentru a crea efecte spatiale unice.<br>
+                <strong>Sound Design:</strong> Reverb-ul poate fi privit ca un instrument pentru ajustarea sunetului, oferind oportunitati pentru creare unor efecte creative.<br><br>
+                In cadrul aplicatiei puteti adauga reverb unui fisier audio.<br><br>
+            </p>
+            <div class="image-container fade-in-right">
+                <img src="{{ url_for('uploaded_file', filename='reverb.png') }}" alt="Reverb">
+            </div>
+            <h2>Exemplu:</h2>
+            <div class="audio-player mb-3">
+                <audio controls>
+                    <source src="{{ url_for('uploaded_file', filename='guitar.mp3') }}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                &nbsp&nbsp&nbsp VS &nbsp&nbsp&nbsp
+                <audio controls>
+                    <source src="{{ url_for('uploaded_file', filename='reverb_guitar.wav') }}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+        <br><br><br>
+        <div>
+            <h2>Shift</h2>
+            <p>Shiftarea pitchului unui fisier audio implica modificarea frecventei, fara a afecta viteza de redare. Acest proces este adesea folosit in productia muzicala si in ingineria sunetului. <br><br>
+            Daca pitch-ul este crescut, frecventa sunetului va creste, ceea ce face ca sunetul sa fie perceput ca fiind mai "inalt". In contrast, daca pitch-ul este redus, frecventa sunetului scade.</p>
+            <div class="image-container fade-in-right">
+                <img src="{{ url_for('uploaded_file', filename='shift1.png') }}" alt="Shift 1">
+            </div>
+            <div class="image-container fade-in-right">
+                <img src="{{ url_for('uploaded_file', filename='shift2.png') }}" alt="Shift 2">
+            </div>
+            <h2>Exemplu:</h2>
+            <div class="audio-player mb-3">
+                <audio controls>
+                    <source src="{{ url_for('uploaded_file', filename='guitar.mp3') }}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                &nbsp&nbsp&nbsp VS &nbsp&nbsp&nbsp
+                <audio controls>
+                    <source src="{{ url_for('uploaded_file', filename='shift_guitar.wav') }}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+        <br><br><br>
+        <div>
+            <br><br>
+            <h2>Stretch</h2>
+            <p>Alungirea sau compactarea unui fisier audio, utila pentru efecte bazate pe timp si sincronizare, pastreaza pitch-ul fisierului audio, dar modifica durata acestuia.</p>
+            <div class="image-container fade-in-right">
+                <img src="{{ url_for('uploaded_file', filename='stretch.png') }}" alt="Stretch">
+            </div>
+            <h2>Exemplu:</h2>
+            <div class="audio-player mb-3">
+                <audio controls>
+                    <source src="{{ url_for('uploaded_file', filename='guitar.mp3') }}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+                &nbsp&nbsp&nbsp VS &nbsp&nbsp&nbsp
+                <audio controls>
+                    <source src="{{ url_for('uploaded_file', filename='stretch_guitar.wav') }}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('scroll', function() {
+            const elements = document.querySelectorAll('.fade-in-right');
+            const scrollTop = document.documentElement.scrollTop;
+
+            elements.forEach(element => {
+                const elementTop = element.offsetTop;
+                if (scrollTop + window.innerHeight > elementTop) {
+                    element.classList.add('show');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

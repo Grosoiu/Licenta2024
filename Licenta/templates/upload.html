@@ -4,10 +4,30 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Upload File for {{ action }}</title>
+    <style>
+        #loading {
+            display: none;
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+        }
+        .loading-bg {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9998;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Audio Processing App</a>
+        <a class="navbar-brand" href="{{ url_for('home') }}">Audio Processing App</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -33,27 +53,44 @@
     </nav>
     <div class="container mt-5">
         <h1>Upload File for {{ action.capitalize() }} Action</h1>
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" onsubmit="showLoadingGif()">
             <div class="form-group">
                 <label for="file">Choose file</label>
-                <input type="file" class="form-control" id="file" name="file">
+                <input type="file" class="form-control" id="file" name="file" required>
             </div>
             {% if action == 'stretch' %}
                 <div class="form-group">
-                    <label for="stretch-value">Stretch Value (0.5 to 3):</label>
-                    <input type="range" class="form-control-range" id="stretch-value" name="stretch-value" min="0.1" max="2" step="0.1" value="1">
+                    <label for="stretch-value">Stretch Value (0.1 to 2): <span id="stretch-value-display">1</span></label>
+                    <input type="range" class="form-control-range" id="stretch-value" name="stretch-value" min="0.1" max="2" step="0.1" value="1" oninput="updateStretchValue(this.value)">
                 </div>
             {% elif action == 'shift' %}
                 <div class="form-group">
-                    <label for="shift-value">Shift Value (-10 to 10):</label>
-                    <input type="range" class="form-control-range" id="shift-value" name="shift-value" min="-10" max="10" step="1" value="0">
+                    <label for="shift-value">Shift Value (-10 to 10): <span id="shift-value-display">0</span></label>
+                    <input type="range" class="form-control-range" id="shift-value" name="shift-value" min="-10" max="10" step="1" value="0" oninput="updateShiftValue(this.value)">
                 </div>
             {% endif %}
             <button type="submit" class="btn btn-primary">Upload</button>
         </form>
     </div>
 
+    <div id="loading">
+        <img src="https://media.tenor.com/Kwq2I-vIuOQAAAAj/downsign-loading.gif" alt="Loading...">
+    </div>
+    <div class="loading-bg"></div>
+
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function updateStretchValue(value) {
+            document.getElementById('stretch-value-display').innerText = value;
+        }
+        function updateShiftValue(value) {
+            document.getElementById('shift-value-display').innerText = value;
+        }
+        function showLoadingGif() {
+            document.getElementById('loading').style.display = 'block';
+            document.querySelector('.loading-bg').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
