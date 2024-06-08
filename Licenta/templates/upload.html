@@ -3,8 +3,47 @@
 <head>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <title>Upload File for {{ action }}</title>
+    <!-- Google Fonts - Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Incarca fisierul pentru: {{ action }}</title>
     <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #202124;
+            background-color: #ffffff;
+        }
+
+        h1, h2 {
+            font-weight: 500;
+        }
+
+        h1 {
+            font-size: 2.5em;
+        }
+
+        h2 {
+            font-size: 2em;
+        }
+
+        p {
+            font-size: 1em;
+        }
+
+        .navbar, .navbar-nav .nav-link {
+            background-color: #4285F4;
+            color: #ffffff;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: #1c0c0c;
+        }
+
+        .navbar-nav .nav-link:hover {
+            background-color: #357ae8;
+            color: #ffffff;
+        }
+
         #loading {
             display: none;
             position: fixed;
@@ -23,10 +62,43 @@
             background: rgba(0, 0, 0, 0.5);
             z-index: 9998;
         }
+
+        .form-control-range {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #ddd;
+            border-radius: 5px;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+
+        .form-control-range:hover {
+            opacity: 1;
+        }
+
+        .form-control-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #4285F4;
+            cursor: pointer;
+        }
+
+        .form-control-range::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #4285F4;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg">
         <a class="navbar-brand" href="{{ url_for('home') }}">Audio Processing App</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -52,23 +124,26 @@
         </div>
     </nav>
     <div class="container mt-5">
-        <h1>Upload File for {{ action.capitalize() }} Action</h1>
+        <h1>Incarca Fisierul pentru {{ action.capitalize() }} </h1>
         <form method="post" enctype="multipart/form-data" onsubmit="showLoadingGif()">
             <div class="form-group">
-                <label for="file">Choose file</label>
+                <br><br><br>
+                <label for="file">Alege Fisierul</label>
                 <input type="file" class="form-control" id="file" name="file" required>
+                <br><br><br>
             </div>
             {% if action == 'stretch' %}
                 <div class="form-group">
-                    <label for="stretch-value">Stretch Value (0.1 to 2): <span id="stretch-value-display">1</span></label>
-                    <input type="range" class="form-control-range" id="stretch-value" name="stretch-value" min="0.1" max="2" step="0.1" value="1" oninput="updateStretchValue(this.value)">
+                    <label for="stretch-value">Stretch Value (0.5 to 2):</label>
+                    <input type="range" class="form-control-range" id="stretch-value" name="stretch-value" min="0.5" max="2" step="0.1" value="1" oninput="updateRangeColor(this)">
                 </div>
             {% elif action == 'shift' %}
                 <div class="form-group">
-                    <label for="shift-value">Shift Value (-10 to 10): <span id="shift-value-display">0</span></label>
-                    <input type="range" class="form-control-range" id="shift-value" name="shift-value" min="-10" max="10" step="1" value="0" oninput="updateShiftValue(this.value)">
+                    <label for="shift-value">Shift Value (-10 to 10):</label>
+                    <input type="range" class="form-control-range" id="shift-value" name="shift-value" min="-10" max="10" step="1" value="0" oninput="updateRangeColor(this)">
                 </div>
             {% endif %}
+            <br><br>
             <button type="submit" class="btn btn-primary">Upload</button>
         </form>
     </div>
@@ -81,16 +156,33 @@
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script>
-        function updateStretchValue(value) {
-            document.getElementById('stretch-value-display').innerText = value;
+        function updateRangeColor(rangeInput) {
+            const min = parseFloat(rangeInput.min);
+            const max = parseFloat(rangeInput.max);
+            const value = parseFloat(rangeInput.value);
+            const percentage = ((value - min) / (max - min)) * 100;
+            // Light blue to dark blue color range
+            const lightBlue = { h: 210, s: 100, l: 90 }; // Very light blue
+            const darkBlue = { h: 210, s: 100, l: 20 };  // Dark blue
+
+            // Interpolate between light blue and dark blue
+            const hue = lightBlue.h;
+            const saturation = lightBlue.s;
+            const lightness = lightBlue.l - ((lightBlue.l - darkBlue.l) * (percentage / 100));
+
+            const color = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+            rangeInput.style.background = `linear-gradient(to right, ${color} 0%, ${color} ${percentage}%, #ddd ${percentage}%, #ddd 100%)`;
+            rangeInput.title = value;
         }
-        function updateShiftValue(value) {
-            document.getElementById('shift-value-display').innerText = value;
-        }
+
         function showLoadingGif() {
             document.getElementById('loading').style.display = 'block';
             document.querySelector('.loading-bg').style.display = 'block';
         }
+
+        document.querySelectorAll('.form-control-range').forEach(rangeInput => {
+            updateRangeColor(rangeInput);
+        });
     </script>
 </body>
 </html>
