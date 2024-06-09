@@ -153,6 +153,11 @@
                     <img src="{{ url_for('output_file', filename='graph.png') }}" class="img-fluid img-3d" alt="Output Image">
                 </div>
             {% endif %}
+            {% if action != 'tnnr' %}
+            <div class="mb-3" style="display: flex; justify-content: center; align-items: center;">
+                <img src="{{ url_for('output_file', filename='boxe.png') }}" class="img-fluid img-3d" alt="Output Image" style="width: 300px; height: auto;">
+            </div>
+            {% endif %}
             <br><br>
             <button type="submit" class="btn btn-primary">Upload</button>
         </form>
