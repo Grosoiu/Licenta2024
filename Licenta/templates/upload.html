@@ -127,10 +127,10 @@
         <h1>Incarca Fisierul pentru {{ action.capitalize() }} </h1>
         <form method="post" enctype="multipart/form-data" onsubmit="showLoadingGif()">
             <div class="form-group">
-                <br><br><br>
+                <br>
                 <label for="file">Alege Fisierul</label>
                 <input type="file" class="form-control" id="file" name="file" required>
-                <br><br><br>
+                <br>
             </div>
             {% if action == 'stretch' %}
                 <div class="form-group">
@@ -141,6 +141,16 @@
                 <div class="form-group">
                     <label for="shift-value">Shift Value (-10 to 10):</label>
                     <input type="range" class="form-control-range" id="shift-value" name="shift-value" min="-10" max="10" step="1" value="0" oninput="updateRangeColor(this)">
+                </div>
+            {% elif action == 'tnnr' %}
+                <p>
+                    TNNR-ADMM (Tensor Nuclear Norm Regularization with Alternating Direction Method Multiplier) reprezinta una dintre multele metode de completare matriceala pe care le-am folosit 
+                    in scopul restructurarii fisierelor audio.<br><br>
+                    Conceptul de Restructurare Matriceala a mai fost folosit in cadrul imaginilor, insa, in cadrul fisierelor audio, doar TNNR-ADMM avea timpi de executie favorabili pentru integrare intr-o aplicatie web.
+                    <br><br> Introdu un fisier audio mai sus pentru a putea vedea cum, dupa pierdea a 50% din semnal, acesta poate fi recuperat. Poti observa mai jos efectul pe imagini:
+                </p>
+                <div class="mb-3">
+                    <img src="{{ url_for('output_file', filename='graph.png') }}" class="img-fluid img-3d" alt="Output Image">
                 </div>
             {% endif %}
             <br><br>
