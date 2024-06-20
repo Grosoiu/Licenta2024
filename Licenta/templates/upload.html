@@ -134,6 +134,9 @@
                     <a class="nav-link" href="{{ url_for('upload_file', action='tnnr') }}">TNNR-ADMM</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('upload_file', action='convert') }}">Convert</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('display_files') }}">View Outputs</a>
                 </li>
             </ul>
@@ -157,6 +160,18 @@
                 <div class="form-group">
                     <label for="shift-value">Shift Value (-10 to 10):</label>
                     <input type="range" class="form-control-range" id="shift-value" name="shift-value" min="-10" max="10" step="1" value="0" oninput="updateRangeColor(this)">
+                </div>
+            {% elif action == 'convert' %}
+                <div class="form-group">
+                    <label for="filetype">Output File Type:</label>
+                    <select class="form-control" id="filetype" name="filetype">
+                        <option value="wav">WAV</option>
+                        <option value="mp3">MP3</option>
+                        <option value="flac">FLAC</option>
+                        <option value="m4a">M4A</option>
+                        <option value="ogg">OGG</option>
+                        <option value="aiff">AIFF</option>
+                    </select>
                 </div>
             {% elif action == 'tnnr' %}
                 <p>

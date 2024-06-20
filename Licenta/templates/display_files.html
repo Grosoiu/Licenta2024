@@ -70,6 +70,9 @@
                     <a class="nav-link" href="{{ url_for('upload_file', action='tnnr') }}">TNNR-ADMM</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('upload_file', action='convert') }}">Convert</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('display_files', action=action) }}">View Outputs</a>
                 </li>
             </ul>
@@ -137,6 +140,20 @@
             
             <div class="mb-3">
                 <img src="{{ url_for('output_file', filename='spectral.png') }}" class="img-fluid img-3d" alt="Output Image">
+            </div>
+        {% elif action == 'convert' %}
+            <h2>Fisierul Original si Fisierul Convertit</h2>
+            <div class="audio-player mb-3">
+                <audio controls>
+                    <source src="{{ url_for('uploaded_file', filename='fisier.mp3') }}" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <div class="audio-player mb-3">
+                <audio controls>
+                    <source src="{{ url_for('output_file', filename=output_filename) }}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
             </div>
         {% else %}
             <p>No specific action selected.</p>
