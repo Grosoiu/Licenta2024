@@ -13,7 +13,8 @@ EXECUTABLES = {
     'shift': 'C:/Users/Grosi/Licenta2024/Licenta/main/shift_audio.exe',
     'stretch': 'C:/Users/Grosi/Licenta2024/Licenta/main/stretch_audio.exe',
     'tnnr': 'C:/Users/Grosi/Licenta2024/Licenta/main/executabil.exe',
-    'convert': 'C:/Users/Grosi/Licenta2024/Licenta/main/convert.exe'
+    'convert': 'C:/Users/Grosi/Licenta2024/Licenta/main/convert.exe',
+    'speech2text': 'matlab -batch "run(\'C:/Users/Grosi/Desktop/speech2texxt/speechclients/examples/ceva.m\');"'
 }
 ALLOWED_EXTENSIONS = {'mp3', 'wav'}
 
@@ -58,6 +59,10 @@ def upload_file(action):
                 filetype = request.form.get('filetype', 'wav')
                 command.append(filetype)
                 output_filename += f'.{filetype}'
+            elif action == 'speech2text':
+                output_filename = 'transcript.txt'
+                command = """matlab -batch "run('C:/Users/Grosi/Desktop/speech2texxt/speechclients/examples/ceva.m');" """
+                print(command,"COAMNDA______")
             subprocess.run(command, shell=True)
             return redirect(url_for('display_files', action=action, output_filename=output_filename))
     return render_template('upload.html', action=action)
@@ -68,7 +73,17 @@ def display_files():
     action = request.args.get('action', 'reverb')
     output_filename = request.args.get('output_filename', 'fisier.wav')
     files = os.listdir(OUTPUT_FOLDER)
-    return render_template('display_files.html', files=files, action=action, output_filename=output_filename)
+    
+    transcript = ""
+    if action == 'speech2text':
+        transcript_path = os.path.join(OUTPUT_FOLDER, 'transcript.txt')
+        transcript_path = transcript_path.replace('\\', '/')
+        print(transcript_path)
+        if os.path.exists(transcript_path):
+            with open(transcript_path, 'r') as file:
+                transcript = file.read()
+    
+    return render_template('display_files.html', files=files, action=action, output_filename=output_filename, transcript=transcript)
 
 
 @app.route('/uploads/<filename>')
