@@ -1,1 +1,1 @@
-this is a giraffe
+testez funcționalitatea de Speech to Text

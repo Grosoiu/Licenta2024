@@ -80,7 +80,7 @@ def display_files():
         transcript_path = transcript_path.replace('\\', '/')
         print(transcript_path)
         if os.path.exists(transcript_path):
-            with open(transcript_path, 'r') as file:
+            with open(transcript_path, 'r', encoding='utf-8') as file:
                 transcript = file.read()
     
     return render_template('display_files.html', files=files, action=action, output_filename=output_filename, transcript=transcript)
