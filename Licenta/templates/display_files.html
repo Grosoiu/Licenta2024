@@ -48,6 +48,12 @@
             background-color: #357ae8;
             color: #ffffff;
         }
+
+        #typewriter {
+            font-size: 1.5em; /* Adjust the font size as needed */
+            font-family: 'Courier New', Courier, monospace; /* Optional: gives a typewriter font style */
+            white-space: pre-wrap; /* Ensures text wraps correctly */
+        }
     </style>
 </head>
 <body>
@@ -160,7 +166,7 @@
                 </audio>
             </div>
         {% elif action == 'speech2text' %}
-            <h2>Original Audio and Transcribed Text</h2>
+            <h2>Fișier audio original și textul transcris</h2>
             <div class="audio-player mb-3">
                 <audio controls>
                     <source src="{{ url_for('uploaded_file', filename='fisier.mp3') }}" type="audio/mp3">
@@ -168,13 +174,30 @@
                 </audio>
             </div>
             <div class="transcript">
-                <h3>Transcription:</h3>
-                <pre>{{ transcript }}</pre>
+                <h3>Transcriere:</h3>
+                <div id="typewriter"></div>
             </div>
         {% else %}
             <p>No specific action selected.</p>
         {% endif %}
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const transcript = `{{ transcript | e }}`; // Escaping the transcription content
+            let index = 0;
+
+            function type() {
+                document.getElementById('typewriter').innerText += transcript[index];
+                index++;
+                if (index < transcript.length) {
+                    setTimeout(type, 40); // Adjust typing speed if necessary
+                }
+            }
+
+            type();
+        });
+    </script>
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
